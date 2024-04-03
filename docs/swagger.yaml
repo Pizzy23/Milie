@@ -1,0 +1,167 @@
+definitions:
+  inter.ControllerDoctor:
+    properties:
+      city:
+        type: string
+      district:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    type: object
+  inter.OutputDoctor:
+    properties:
+      Login_idLogin:
+        type: integer
+      city:
+        type: string
+      create_at:
+        type: string
+      district:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      street:
+        type: string
+      update_at:
+        type: string
+      zipCode:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/create-doctor:
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo Doutor no banco de dados
+      parameters:
+      - description: Dados do Doutor a ser criado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/inter.ControllerDoctor'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doutor criado com sucesso
+          schema:
+            $ref: '#/definitions/inter.OutputDoctor'
+      summary: Cria um novo Doutor
+      tags:
+      - Doctor
+  /api/modify-doctor:
+    put:
+      consumes:
+      - application/json
+      description: Altera o doutor, tem que me passar oque precisa alterar
+      parameters:
+      - description: Dados do Doutor a ser criado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/inter.ControllerDoctor'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doutor criado com sucesso
+          schema:
+            $ref: '#/definitions/inter.OutputDoctor'
+      summary: Altera Doutor
+      tags:
+      - Doctor
+  /api/search-doctor:
+    get:
+      consumes:
+      - application/json
+      description: Buscar um novo Doutor no banco de dados
+      parameters:
+      - description: Email do doutor
+        in: header
+        name: Email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doutor criado com sucesso
+          schema:
+            $ref: '#/definitions/inter.OutputDoctor'
+      summary: Buscar um doutor
+      tags:
+      - Doctor
+  /api/test-token:
+    post:
+      consumes:
+      - application/json
+      description: Cria um toke para auth do usuario
+      parameters:
+      - default: Bearer <token>
+        description: Token de autenticação
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'token make:'
+          schema:
+            type: string
+      summary: Test Token
+      tags:
+      - Auth
+  /token:
+    get:
+      consumes:
+      - application/json
+      description: Cria um toke para auth do usuario
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'token make:'
+          schema:
+            type: string
+      summary: Criar token de auth
+      tags:
+      - Auth
+swagger: "2.0"
