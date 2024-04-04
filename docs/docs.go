@@ -77,7 +77,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/inter.ModifyControllerDoctor"
+                            "$ref": "#/definitions/inter.ControllerDoctor"
                         }
                     },
                     {
@@ -194,6 +194,29 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/tokenTest": {
+            "get": {
+                "description": "Cria um toke para auth do usuario",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Criar token de authTest",
+                "responses": {
+                    "200": {
+                        "description": "token make:",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -213,29 +236,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
-                },
-                "street": {
-                    "type": "string"
-                },
-                "zipCode": {
-                    "type": "string"
-                }
-            }
-        },
-        "inter.ModifyControllerDoctor": {
-            "type": "object",
-            "properties": {
-                "city": {
-                    "type": "string"
-                },
-                "district": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 },
                 "street": {

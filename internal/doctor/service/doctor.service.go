@@ -118,9 +118,10 @@ func GetDoctor(c *gin.Context, data string) {
 }
 
 func ModifyDoctor(c *gin.Context, data inter.ControllerDoctor) {
-	var existingDoctor db.Doctor
-	if err := db.Repo.First(&existingDoctor, data.Email).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Doctor not found"})
+	existingDoctor, err := storage.ConsultDoctor(db.Repo, data.Email)
+	if err != nil {
+		c.Set("Response", "Don't found email")
+		c.Status(http.StatusInternalServerError)
 		return
 	}
 	data = encryptData(c, data)
@@ -146,7 +147,8 @@ func ModifyDoctor(c *gin.Context, data inter.ControllerDoctor) {
 
 	existingDoctor.UpdateAt = time.Now()
 
-	doctor, err := storage.ModifyDoctor(db.Repo, &existingDoctor)
+	doctor, err := storage.ModifyDoctor(db.Repo, existingDoctor)
+
 	if err != nil {
 		c.Set("Response", "Internal Server error")
 		c.Status(http.StatusInternalServerError)

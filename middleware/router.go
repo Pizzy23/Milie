@@ -22,6 +22,7 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/token", generateTokenHandler)
+	r.GET("/tokenTest", generateTokenHandlerTest)
 
 	auth := r.Group("/api")
 	auth.Use(authMiddleware)

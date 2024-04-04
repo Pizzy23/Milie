@@ -16,21 +16,6 @@ definitions:
       zipCode:
         type: string
     type: object
-  inter.ModifyControllerDoctor:
-    properties:
-      city:
-        type: string
-      district:
-        type: string
-      email:
-        type: string
-      name:
-        type: string
-      street:
-        type: string
-      zipCode:
-        type: string
-    type: object
   inter.OutputDoctor:
     properties:
       Login_idLogin:
@@ -98,7 +83,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/inter.ModifyControllerDoctor'
+          $ref: '#/definitions/inter.ControllerDoctor'
       - default: Bearer <token>
         description: Token de autenticação (Colocar o token deixando o Bearer)
         in: header
@@ -177,6 +162,21 @@ paths:
           schema:
             type: string
       summary: Criar token de auth
+      tags:
+      - Auth
+  /tokenTest:
+    get:
+      consumes:
+      - application/json
+      description: Cria um toke para auth do usuario
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'token make:'
+          schema:
+            type: string
+      summary: Criar token de authTest
       tags:
       - Auth
 swagger: "2.0"
