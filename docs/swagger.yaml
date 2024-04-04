@@ -16,6 +16,21 @@ definitions:
       zipCode:
         type: string
     type: object
+  inter.ModifyControllerDoctor:
+    properties:
+      city:
+        type: string
+      district:
+        type: string
+      email:
+        type: string
+      name:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    type: object
   inter.OutputDoctor:
     properties:
       Login_idLogin:
@@ -83,7 +98,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/inter.ControllerDoctor'
+          $ref: '#/definitions/inter.ModifyControllerDoctor'
       - default: Bearer <token>
         description: Token de autenticação (Colocar o token deixando o Bearer)
         in: header

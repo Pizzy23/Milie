@@ -1,4 +1,6 @@
 package login
 
-func LoginUser()   {}
-func LoggoutUser() {}
+func LoginDoctor()    {}
+func LoggoutDoctor()  {}
+func LoginPacient()   {}
+func LoggoutPacient() {}

@@ -35,7 +35,7 @@ func ConnectDatabase() {
 		log.Fatal("Falha ao conectar ao banco de dados: ", err)
 	}
 
-	Migrate(db)
+	//Migrate(db)
 
 	Repo = db
 }

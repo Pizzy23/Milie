@@ -27,23 +27,25 @@ func SetupRouter() *gin.Engine {
 	auth.Use(authMiddleware)
 	auth.Use(ResponseHandler())
 
-	auth.POST("/create-doctor", doctor.CreateDoctor)
-	auth.POST("/add-pacient", doctor.AddPacient)
 	auth.PUT("/modify-doctor", doctor.ModifyDoctor)
 	auth.PUT("/modify-skill", doctor.ModifySkills)
-	auth.GET("/search-doctor", doctor.SearchDoctor)
+	auth.PUT("/questions", pacient.QuestionsMark)
 
 	auth.POST("/create-orientation", pacient.CreatOrientation)
 	auth.POST("/questions", pacient.QuestionsPulledAge)
+	auth.POST("/consults", consults.AddConsults)
+	auth.POST("/test-token", testeToken)
+	auth.POST("/create-doctor", doctor.CreateDoctor)
+	auth.POST("/add-pacient", doctor.AddPacient)
+
 	auth.GET("/activity", pacient.PullActivity)
 	auth.GET("/orientation", pacient.PullOrientation)
 	auth.GET("/pacient", pacient.PullPacient)
 	auth.GET("/profile", pacient.PullProfile)
-	auth.PUT("/questions", pacient.QuestionsMark)
-
-	auth.POST("/consults", consults.AddConsults)
+	auth.GET("/search-doctor", doctor.SearchDoctor)
 	auth.GET("/consults", consults.CheckConsults)
+
 	auth.DELETE("/consults", consults.RemoveConsults)
-	auth.POST("/test-token", testeToken)
+
 	return r
 }

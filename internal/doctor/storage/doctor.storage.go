@@ -6,19 +6,28 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConsultDoctor(q *gorm.DB, data string) (*db.Doctor, error) {
+func ConsultDoctor(q *gorm.DB, email string) (*db.Doctor, error) {
 	var doctor db.Doctor
-	if err := q.First(&doctor, data).Error; err != nil {
+	var login db.Login
+	if err := q.Where("email = ?", email).First(&doctor).Error; err != nil {
 		return nil, err
 	}
+	if err := q.Where("email = ?", email).First(&login).Error; err != nil {
+		return nil, err
+	}
+	doctor.Login = login
 	return &doctor, nil
 }
 
 func CreateDoctor(q *gorm.DB, data *db.Doctor) (*db.Doctor, error) {
+	var login db.Login
 	if err := q.Create(data).Error; err != nil {
 		return nil, err
 	}
-
+	if err := q.Where("email = ?", data.Email).First(&login).Error; err != nil {
+		return nil, err
+	}
+	data.Login = login
 	return data, nil
 }
 

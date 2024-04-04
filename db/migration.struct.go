@@ -2,8 +2,6 @@ package db
 
 import (
 	"time"
-
-	"gorm.io/gorm"
 )
 
 type Login struct {
@@ -25,7 +23,6 @@ type Skills struct {
 }
 
 type Doctor struct {
-	gorm.Model
 	ID       uint      `gorm:"column:id;primaryKey" json:"id"`
 	Name     string    `gorm:"column:name;not null" json:"name"`
 	Email    string    `gorm:"column:email;unique;not null" json:"email"`
@@ -41,7 +38,6 @@ type Doctor struct {
 }
 
 type Pacient struct {
-	gorm.Model
 	ID             uint      `gorm:"column:id;primaryKey;not null" json:"id"`
 	Name           string    `gorm:"column:name;not null" json:"name"`
 	Email          string    `gorm:"column:email;unique;not null" json:"email"`
@@ -62,7 +58,6 @@ type Pacient struct {
 }
 
 type Consults struct {
-	gorm.Model
 	ID        uint      `gorm:"column:id;primaryKey;not null" json:"id"`
 	Date      string    `gorm:"column:Date;not null" json:"Date"`
 	Doctor    Doctor    `gorm:"foreignKey:DoctorID" json:"doctor"`
@@ -74,7 +69,6 @@ type Consults struct {
 }
 
 type Family struct {
-	gorm.Model
 	ID       uint      `gorm:"column:id;primaryKey;not null" json:"id"`
 	Brothers Brothers  `gorm:"column:brothers;not null" json:"brothers"`
 	CreateAt time.Time `gorm:"column:create_at;not null" json:"create_at"`

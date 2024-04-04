@@ -36,12 +36,8 @@ func CreateDoctor(c *gin.Context) {
 // @Success 200 {object} inter.OutputDoctor "Doutor criado com sucesso"
 // @Router /api/search-doctor [get]
 func SearchDoctor(c *gin.Context) {
-	var input inter.SearchDoctors
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	service.GetDoctor(c, input)
+	email := c.GetHeader("Email")
+	service.GetDoctor(c, email)
 
 }
 

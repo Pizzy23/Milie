@@ -5,7 +5,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
-	"fmt"
+	"errors"
 	"io"
 	"log"
 	"os"
@@ -16,7 +16,6 @@ func Encrypt(plaintext string) (string, error) {
 	if keyString == "" {
 		log.Fatal("Erro ao carregar o arquivo .env")
 	}
-
 	key := []byte(keyString)
 
 	block, err := aes.NewCipher(key)
@@ -37,12 +36,10 @@ func Encrypt(plaintext string) (string, error) {
 }
 
 func Decrypt(ciphertext string) (string, error) {
-
 	keyString := os.Getenv("ENCRYPTION_KEY")
 	if keyString == "" {
 		log.Fatal("Erro ao carregar o arquivo .env")
 	}
-
 	key := []byte(keyString)
 
 	block, err := aes.NewCipher(key)
@@ -56,7 +53,7 @@ func Decrypt(ciphertext string) (string, error) {
 	}
 
 	if len(decodedCiphertext) < aes.BlockSize {
-		return "", fmt.Errorf("ciphertext too short")
+		return "", errors.New("ciphertext too short")
 	}
 	iv := decodedCiphertext[:aes.BlockSize]
 	decodedCiphertext = decodedCiphertext[aes.BlockSize:]

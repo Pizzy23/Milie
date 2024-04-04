@@ -42,3 +42,13 @@ type ControllerDoctor struct {
 	District string `gorm:"column:district" json:"district"`
 	City     string `gorm:"column:city" json:"city"`
 }
+
+type ModifyControllerDoctor struct {
+	Name     string `gorm:"column:name" json:"name"`
+	Email    string `gorm:"column:email" json:"email"`
+	Password string `gorm:"column:password" json:"password"`
+	ZipCode  string `gorm:"column:zipCode" json:"zipCode"`
+	Street   string `gorm:"column:street" json:"street"`
+	District string `gorm:"column:district" json:"district"`
+	City     string `gorm:"column:city" json:"city"`
+}

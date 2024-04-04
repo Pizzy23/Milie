@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -28,11 +29,6 @@ func ResponseHandler() gin.HandlerFunc {
 			return
 		}
 		defer file.Close()
-
-		if _, err := file.WriteString("Nova linha no arquivo de log\n"); err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
-			return
-		}
 
 		customWriter := &responseWriter{ResponseWriter: c.Writer, body: make([]byte, 0)}
 		c.Writer = customWriter
@@ -64,6 +60,13 @@ func ResponseHandler() gin.HandlerFunc {
 		combinedData := gin.H{
 			"LogData":      logData,
 			"ResponseData": responseData,
+		}
+		logString := fmt.Sprintf("ExecutionTime: %s, Route: %s, HttpStatusCode: %d, IP: %s\n",
+			logData["ExecutionTime"], logData["Route"], logData["HttpStatusCode"], logData["IP"])
+
+		if _, err := file.WriteString(logString); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+			return
 		}
 
 		responseJSON, err := json.Marshal(combinedData)

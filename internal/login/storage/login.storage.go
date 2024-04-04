@@ -8,11 +8,13 @@ import (
 )
 
 func CreateLogin(q *gorm.DB, email string) (*db.Login, error) {
+	CreateAt := time.Now()
+	UpdateAt := time.Now()
 	newLogin := &db.Login{
 		Email:    email,
 		IsLogged: false,
-		CreateAt: time.Now(),
-		UpdateAt: time.Now(),
+		CreateAt: CreateAt,
+		UpdateAt: UpdateAt,
 	}
 	if err := q.Create(newLogin).Error; err != nil {
 		return nil, err
