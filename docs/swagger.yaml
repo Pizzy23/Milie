@@ -41,9 +41,44 @@ definitions:
       zipCode:
         type: string
     type: object
+  inter.Question:
+    properties:
+      descricao:
+        type: string
+      numero:
+        type: string
+    type: object
+  inter.Resp:
+    additionalProperties:
+      items:
+        $ref: '#/definitions/inter.Question'
+      type: array
+    type: object
 info:
   contact: {}
 paths:
+  /add-questions:
+    post:
+      consumes:
+      - application/json
+      description: Um novo metodo de adicionar as questoes no back
+      parameters:
+      - description: Dados do Doutor a ser criado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/inter.Resp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doutor criado com sucesso
+          schema:
+            $ref: '#/definitions/inter.OutputDoctor'
+      summary: Adicionar as questoes
+      tags:
+      - Questions
   /api/create-doctor:
     post:
       consumes:

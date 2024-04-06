@@ -5,6 +5,7 @@ import (
 	consults "millieMind/internal/consults/handler"
 	doctor "millieMind/internal/doctor/handler"
 	pacient "millieMind/internal/pacient/handler"
+	questions "millieMind/internal/questions/handler"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -23,6 +24,7 @@ func SetupRouter() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/token", generateTokenHandler)
 	r.GET("/tokenTest", generateTokenHandlerTest)
+	r.POST("/add-questions", questions.AddQuestions)
 
 	auth := r.Group("/api")
 	auth.Use(authMiddleware)

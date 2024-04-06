@@ -1,11 +1,4 @@
-ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 409, IP: ::1
-ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 409, IP: ::1
-ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 409, IP: ::1
 ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
 ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
-ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 409, IP: ::1
 ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
-ExecutionTime: 0s, Route: /api/search-doctor, HttpStatusCode: 200, IP: ::1
-ExecutionTime: 0s, Route: /api/search-doctor, HttpStatusCode: 200, IP: ::1
-ExecutionTime: 0s, Route: /api/search-doctor, HttpStatusCode: 200, IP: ::1
-ExecutionTime: 0s, Route: /api/search-doctor, HttpStatusCode: 200, IP: ::1
+ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1

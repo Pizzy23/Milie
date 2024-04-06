@@ -15,6 +15,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/add-questions": {
+            "post": {
+                "description": "Um novo metodo de adicionar as questoes no back",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Adicionar as questoes",
+                "parameters": [
+                    {
+                        "description": "Dados do Doutor a ser criado",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inter.Resp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doutor criado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/inter.OutputDoctor"
+                        }
+                    }
+                }
+            }
+        },
         "/api/create-doctor": {
             "post": {
                 "description": "Cria um novo Doutor no banco de dados",
@@ -281,6 +315,26 @@ const docTemplate = `{
                 },
                 "zipCode": {
                     "type": "string"
+                }
+            }
+        },
+        "inter.Question": {
+            "type": "object",
+            "properties": {
+                "descricao": {
+                    "type": "string"
+                },
+                "numero": {
+                    "type": "string"
+                }
+            }
+        },
+        "inter.Resp": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/definitions/inter.Question"
                 }
             }
         }

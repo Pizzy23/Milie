@@ -40,7 +40,7 @@ router.post("/pdf", upload.single("pdf"), async (req, res) => {
 router.post("/text-extract", async (req, res) => {
   try {
     const text = await servicePDF.getText();
-    const res = await serviceAxios.PostService(text, "")
+    const res = await serviceAxios.PostService(text, "add-questions");
     res.status(200).json(text);
   } catch (e) {
     res.status(500).json({ error: "Internal error in parse texts" });
