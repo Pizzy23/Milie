@@ -4,6 +4,48 @@
         "contact": {}
     },
     "paths": {
+        "/add-pacient": {
+            "post": {
+                "description": "Cria um toke para auth do usuario",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Criar token de auth",
+                "parameters": [
+                    {
+                        "description": "Dados do Doutor a ser criado",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pInter.InputPacient"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token make:",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.Pacient"
+                        }
+                    }
+                }
+            }
+        },
         "/add-questions": {
             "post": {
                 "description": "Um novo metodo de adicionar as questoes no back",
@@ -122,6 +164,84 @@
                 }
             }
         },
+        "/api/pull-questions": {
+            "get": {
+                "description": "Puxar as questoes no back",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Puxar as questoes",
+                "parameters": [
+                    {
+                        "enum": [
+                            "Portage"
+                        ],
+                        "type": "string",
+                        "description": "Formularios : ",
+                        "name": "EnumFormsName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "Portage - Desenvolvimento Motor",
+                            "Portage - Auto cuidados",
+                            "Portage - Socializacao",
+                            "Portage - Linguagem",
+                            "Portage - Cognicao"
+                        ],
+                        "type": "string",
+                        "description": "Categorias : ",
+                        "name": "EnumCategories",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "0 - 1",
+                            "1 - 2",
+                            "2 - 3",
+                            "3 - 4",
+                            "4 - 5",
+                            "5 - 6"
+                        ],
+                        "type": "string",
+                        "description": "Age Rate : ",
+                        "name": "EnumAges",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doutor criado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/inter.OutputDoctor"
+                        }
+                    },
+                    "406": {
+                        "description": "Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/search-doctor": {
             "get": {
                 "description": "Buscar um novo Doutor no banco de dados",
@@ -217,29 +337,6 @@
                     }
                 }
             }
-        },
-        "/tokenTest": {
-            "get": {
-                "description": "Cria um toke para auth do usuario",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Criar token de authTest",
-                "responses": {
-                    "200": {
-                        "description": "token make:",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -310,10 +407,10 @@
         "inter.Question": {
             "type": "object",
             "properties": {
-                "descricao": {
+                "desc": {
                     "type": "string"
                 },
-                "numero": {
+                "number": {
                     "type": "string"
                 }
             }
@@ -324,6 +421,139 @@
                 "type": "array",
                 "items": {
                     "$ref": "#/definitions/inter.Question"
+                }
+            }
+        },
+        "pInter.Brothers": {
+            "type": "object",
+            "properties": {
+                "health": {
+                    "type": "string"
+                },
+                "neuroDivergent": {
+                    "type": "string"
+                }
+            }
+        },
+        "pInter.Family": {
+            "type": "object",
+            "properties": {
+                "brothers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pInter.Brothers"
+                    }
+                },
+                "parents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pInter.Parents"
+                    }
+                }
+            }
+        },
+        "pInter.InputPacient": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "family": {
+                    "$ref": "#/definitions/pInter.Family"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "neuroDivergent": {
+                    "type": "string"
+                },
+                "pdfContent": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                }
+            }
+        },
+        "pInter.Pacient": {
+            "type": "object",
+            "properties": {
+                "Doctor_idDoctor": {
+                    "type": "integer"
+                },
+                "Family_idFamily": {
+                    "type": "integer"
+                },
+                "Login_idLogin": {
+                    "type": "integer"
+                },
+                "Skills_idSkills": {
+                    "type": "integer"
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "create_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "neuroDivergent": {
+                    "type": "string"
+                },
+                "pdfContent": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "update_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "pInter.Parents": {
+            "type": "object",
+            "properties": {
+                "neuroDivergent": {
+                    "type": "string"
+                },
+                "relationShip": {
+                    "type": "string"
                 }
             }
         }

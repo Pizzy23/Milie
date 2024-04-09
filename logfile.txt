@@ -2,3 +2,5 @@ ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
 ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
 ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
 ExecutionTime: 0s, Route: /api/create-doctor, HttpStatusCode: 200, IP: ::1
+ExecutionTime: 0s, Route: /api/pull-questions, HttpStatusCode: 500, IP: ::1
+ExecutionTime: 0s, Route: /api/pull-questions, HttpStatusCode: 200, IP: ::1

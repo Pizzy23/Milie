@@ -1,28 +1,55 @@
-package inter
+package pInter
 
 import (
 	"time"
 )
 
 type SearchPacient struct {
-	Email string `gorm:"column:email" json:"email"`
+	Email string `json:"email"`
 }
 
-type OutputPacient struct {
-	ID             uint      `gorm:"column:id;primaryKey" json:"id"`
-	Name           string    `gorm:"column:name" json:"name"`
-	Email          string    `gorm:"column:email" json:"email"`
-	Phone          string    `gorm:"column:phone" json:"phone"`
-	Region         string    `gorm:"column:region" json:"region"`
-	Age            int       `gorm:"column:age" json:"age"`
-	Gender         string    `gorm:"column:gender" json:"gender"`
-	Score          int       `gorm:"column:score" json:"score"`
-	History        []byte    `gorm:"column:content;type:longblob" json:"pdfContent"`
-	NeuroDivergent string    `gorm:"column:neuroDivergent" json:"neuroDivergent"`
-	LoginID        int       `gorm:"column:Login_idLogin" json:"Login_idLogin"`
-	SkillsID       int       `gorm:"column:Skills_idSkills" json:"Skills_idSkills"`
-	DoctorID       int       `gorm:"column:Doctor_idDoctor" json:"Doctor_idDoctor"`
-	FamilyID       int       `gorm:"column:Family_idFamily" json:"Family_idFamily"`
-	CreateAt       time.Time `gorm:"column:create_at" json:"create_at"`
-	UpdateAt       time.Time `gorm:"column:update_at" json:"update_at"`
+type Pacient struct {
+	ID             uint      `json:"id"`
+	Name           string    `json:"name"`
+	Email          string    `json:"email"`
+	Phone          string    `json:"phone"`
+	Region         string    `json:"region"`
+	Age            int       `json:"age"`
+	Gender         string    `json:"gender"`
+	Score          int       `json:"score"`
+	History        []byte    `json:"pdfContent"`
+	NeuroDivergent string    `json:"neuroDivergent"`
+	LoginID        int       `json:"Login_idLogin"`
+	SkillsID       int       `json:"Skills_idSkills"`
+	DoctorID       int       `json:"Doctor_idDoctor"`
+	FamilyID       int       `json:"Family_idFamily"`
+	CreateAt       time.Time `json:"create_at"`
+	UpdateAt       time.Time `json:"update_at"`
+}
+
+type InputPacient struct {
+	Name           string `json:"name"`
+	Email          string `json:"email"`
+	Phone          string `json:"phone"`
+	Region         string `json:"region"`
+	Age            int    `json:"age"`
+	Gender         string `json:"gender"`
+	Score          int    `json:"score"`
+	History        []byte `json:"pdfContent"`
+	NeuroDivergent string `json:"neuroDivergent"`
+	Family         Family `json:"family"`
+}
+type Family struct {
+	Parents  []Parents  `json:"parents"`
+	Brothers []Brothers `json:"brothers"`
+}
+
+type Brothers struct {
+	Health         string `json:"health"`
+	NeuroDivergent string `json:"neuroDivergent"`
+}
+
+type Parents struct {
+	Relationship   string `json:"relationShip"`
+	NeuroDivergent string `json:"neuroDivergent"`
 }

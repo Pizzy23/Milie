@@ -4,6 +4,7 @@ import (
 	_ "millieMind/db"
 	inter "millieMind/internal/doctor/interface"
 	service "millieMind/internal/doctor/service"
+	pInter "millieMind/internal/pacient/interface"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,8 @@ import (
 func CreateDoctor(c *gin.Context) {
 	var doctor inter.ControllerDoctor
 	if err := c.BindJSON(&doctor); err != nil {
+		c.Set("Response", "Paramets is invalid, need a json")
+		c.Status(http.StatusNotAcceptable)
 		return
 	}
 	service.AddDoctor(c, doctor)
@@ -53,11 +56,28 @@ func SearchDoctor(c *gin.Context) {
 func ModifyDoctor(c *gin.Context) {
 	var input inter.ControllerDoctor
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.Set("Response", "Paramets is invalid, need a json")
+		c.Status(http.StatusNotAcceptable)
 		return
 	}
 	service.ModifyDoctor(c, input)
 }
 
-func AddPacient(c *gin.Context)   {}
+// @Summary Criar token de auth
+// @Description Cria um toke para auth do usuario
+// @Tags Pacient
+// @Accept json
+// @Produce json
+// @Param request body pInter.InputPacient true "Dados do Doutor a ser criado"
+// @Param Authorization header string true "Token de autenticação (Colocar o token deixando o Bearer)" default(Bearer <token>)
+// @Success 200 {object} pInter.Pacient "token make:"
+// @Router /add-pacient [post]
+func AddPacient(c *gin.Context) {
+	var input pInter.InputPacient
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.Set("Response", "Paramets is invalid, need a json")
+		c.Status(http.StatusNotAcceptable)
+		return
+	}
+}
 func ModifySkills(c *gin.Context) {}

@@ -47,12 +47,13 @@ type Pacient struct {
 	Gender         string    `gorm:"column:gender;not null" json:"gender"`
 	Score          uint      `gorm:"column:score;not null" json:"score"`
 	History        []byte    `gorm:"column:content;type:longblob;not null" json:"pdfContent"`
-	NeuroDivergent string    `gorm:"column:neuroDivergen;not nullt" json:"neuroDivergent"`
+	NeuroDivergent string    `gorm:"column:neuroDivergen;not null" json:"neuroDivergent"`
 	Login          Login     `gorm:"foreignKey:LoginID" json:"login"`
-	LoginID        uint      `gorm:"column:Login_idLogin;not null" json:"Login_idLogin"`
-	SkillsID       uint      `gorm:"column:Skills_idSkills;not null" json:"Skills_idSkills"`
-	DoctorID       uint      `gorm:"column:Doctor_idDoctor;not null" json:"Doctor_idDoctor"`
-	FamilyID       uint      `gorm:"column:Family_idFamily;not null" json:"Family_idFamily"`
+	LoginID        uint      `gorm:"column:Login_idLog in;not null" json:"login_id"`
+	Skills         []Skills  `gorm:"many2many:patient_skills;" json:"skills"`
+	Doctor         Doctor    `gorm:"foreignKey:DoctorID" json:"doctor"`
+	DoctorID       uint      `gorm:"column:Doctor_idDoctor;not null" json:"doctor_id"`
+	Family         []Family  `gorm:"foreignKey:PacientID" json:"family"`
 	CreateAt       time.Time `gorm:"column:create_at;not null" json:"create_at"`
 	UpdateAt       time.Time `gorm:"column:update_at;not null" json:"update_at"`
 }
@@ -69,14 +70,20 @@ type Consults struct {
 }
 
 type Family struct {
-	ID       uint      `gorm:"column:id;primaryKey;not null" json:"id"`
-	Brothers Brothers  `gorm:"column:brothers;not null" json:"brothers"`
-	CreateAt time.Time `gorm:"column:create_at;not null" json:"create_at"`
-	UpdateAt time.Time `gorm:"column:update_at;not null" json:"update_at"`
+	ID       uint       `gorm:"column:id;primaryKey;not null" json:"id"`
+	Parents  []Parents  `gorm:"column:parents" json:"parents"`
+	Brothers []Brothers `gorm:"column:brothers" json:"brothers"`
+	CreateAt time.Time  `gorm:"column:create_at;not null" json:"create_at"`
+	UpdateAt time.Time  `gorm:"column:update_at;not null" json:"update_at"`
 }
 
 type Brothers struct {
-	Health         string `gorm:"column:healt;not nullh" json:"health"`
+	Health         string `gorm:"column:healt;not null" json:"health"`
+	NeuroDivergent string `gorm:"column:neuroDivergent;not null" json:"neuroDivergent"`
+}
+
+type Parents struct {
+	Relationship   string `gorm:"column:relationShip;not null" json:"relationShip"`
 	NeuroDivergent string `gorm:"column:neuroDivergent;not null" json:"neuroDivergent"`
 }
 
@@ -84,8 +91,8 @@ type BaseQuestions struct {
 	ID         uint   `gorm:"column:id" json:"id"`
 	FormsName  string `gorm:"column:Forms_name;not null" json:"forms_name"`
 	Categories string `gorm:"column:Categories;not null" json:"categories"`
-	Question   string `gorm:"column:question;not null" json:"question"`
 	Age        string `gorm:"column:Age;not null" json:"age"`
+	Question   string `gorm:"column:question;not null" json:"question"`
 }
 
 type MakeQuestions struct {
@@ -99,5 +106,6 @@ type MakeQuestions struct {
 
 type AnsweredQuestion struct {
 	QuestionID int    `json:"question_id"`
-	Answer     string `json:"answer"`
+	Question   string `gorm:"column:Questions;not null" json:"question"`
+	Answer     string `gorm:"column:Answer;not null" json:"answer"`
 }

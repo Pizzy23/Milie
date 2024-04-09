@@ -43,9 +43,9 @@ definitions:
     type: object
   inter.Question:
     properties:
-      descricao:
+      desc:
         type: string
-      numero:
+      number:
         type: string
     type: object
   inter.Resp:
@@ -54,9 +54,124 @@ definitions:
         $ref: '#/definitions/inter.Question'
       type: array
     type: object
+  pInter.Brothers:
+    properties:
+      health:
+        type: string
+      neuroDivergent:
+        type: string
+    type: object
+  pInter.Family:
+    properties:
+      brothers:
+        items:
+          $ref: '#/definitions/pInter.Brothers'
+        type: array
+      parents:
+        items:
+          $ref: '#/definitions/pInter.Parents'
+        type: array
+    type: object
+  pInter.InputPacient:
+    properties:
+      age:
+        type: integer
+      email:
+        type: string
+      family:
+        $ref: '#/definitions/pInter.Family'
+      gender:
+        type: string
+      name:
+        type: string
+      neuroDivergent:
+        type: string
+      pdfContent:
+        items:
+          type: integer
+        type: array
+      phone:
+        type: string
+      region:
+        type: string
+      score:
+        type: integer
+    type: object
+  pInter.Pacient:
+    properties:
+      Doctor_idDoctor:
+        type: integer
+      Family_idFamily:
+        type: integer
+      Login_idLogin:
+        type: integer
+      Skills_idSkills:
+        type: integer
+      age:
+        type: integer
+      create_at:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      neuroDivergent:
+        type: string
+      pdfContent:
+        items:
+          type: integer
+        type: array
+      phone:
+        type: string
+      region:
+        type: string
+      score:
+        type: integer
+      update_at:
+        type: string
+    type: object
+  pInter.Parents:
+    properties:
+      neuroDivergent:
+        type: string
+      relationShip:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
+  /add-pacient:
+    post:
+      consumes:
+      - application/json
+      description: Cria um toke para auth do usuario
+      parameters:
+      - description: Dados do Doutor a ser criado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/pInter.InputPacient'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'token make:'
+          schema:
+            $ref: '#/definitions/pInter.Pacient'
+      summary: Criar token de auth
+      tags:
+      - Pacient
   /add-questions:
     post:
       consumes:
@@ -135,6 +250,62 @@ paths:
       summary: Altera Doutor
       tags:
       - Doctor
+  /api/pull-questions:
+    get:
+      consumes:
+      - application/json
+      description: Puxar as questoes no back
+      parameters:
+      - description: 'Formularios : '
+        enum:
+        - Portage
+        in: header
+        name: EnumFormsName
+        required: true
+        type: string
+      - description: 'Categorias : '
+        enum:
+        - Portage - Desenvolvimento Motor
+        - Portage - Auto cuidados
+        - Portage - Socializacao
+        - Portage - Linguagem
+        - Portage - Cognicao
+        in: header
+        name: EnumCategories
+        required: true
+        type: string
+      - description: 'Age Rate : '
+        enum:
+        - 0 - 1
+        - 1 - 2
+        - 2 - 3
+        - 3 - 4
+        - 4 - 5
+        - 5 - 6
+        in: header
+        name: EnumAges
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doutor criado com sucesso
+          schema:
+            $ref: '#/definitions/inter.OutputDoctor'
+        "406":
+          description: Error
+          schema:
+            type: string
+      summary: Puxar as questoes
+      tags:
+      - Questions
   /api/search-doctor:
     get:
       consumes:
@@ -197,21 +368,6 @@ paths:
           schema:
             type: string
       summary: Criar token de auth
-      tags:
-      - Auth
-  /tokenTest:
-    get:
-      consumes:
-      - application/json
-      description: Cria um toke para auth do usuario
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 'token make:'
-          schema:
-            type: string
-      summary: Criar token de authTest
       tags:
       - Auth
 swagger: "2.0"

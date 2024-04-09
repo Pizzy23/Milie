@@ -52,6 +52,18 @@ func InputQuestionsDB(c *gin.Context, data inter.Resp) {
 	c.Status(http.StatusOK)
 }
 
+func GetQuestions(c *gin.Context, data inter.SearchQuestions) {
+	data.Categories = extractCategory(data.Categories)
+	questions, err := storage.SearchQuestions(db.Repo, data)
+	if err != nil {
+		c.Set("Response", "Don't found your questions")
+		c.Status(http.StatusInternalServerError)
+		return
+	}
+	c.Set("Response", questions)
+	c.Status(http.StatusOK)
+}
+
 func extractAgeInfo(category string) (string, int, int, error) {
 	re := regexp.MustCompile(`\s*–\s*(\d+)\s*(?:a\s*(\d+)\s+anos?|ano)$`)
 
@@ -77,4 +89,27 @@ func extractAgeInfo(category string) (string, int, int, error) {
 
 	newCategory := strings.TrimSpace(re.ReplaceAllString(category, ""))
 	return newCategory, minAge, maxAge, nil
+}
+
+func extractCategory(category string) string {
+	var str string
+	switch category {
+	case "Portage - Cognicao":
+		str = "Cognicao"
+
+	case "Portage - Linguagem":
+		str = "Linguagem"
+
+	case "Portage - Socializacao":
+		str = "Socializacao"
+
+	case "Portage - Auto cuidados":
+		str = "Auto cuidados"
+
+	case "Portage - Desenvolvimento Motor":
+		str = "Desenvolvimento Motor"
+	default:
+		str = "N/A"
+	}
+	return str
 }

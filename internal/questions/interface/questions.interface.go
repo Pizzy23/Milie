@@ -11,5 +11,10 @@ type BaseQuestions struct {
 	FormsName  string `gorm:"column:Forms_name;not null" json:"forms_name"`
 	Categories string `gorm:"column:Categories;not null" json:"categories"`
 	Question   string `gorm:"column:question;not null" json:"question"`
-	Age        int    `gorm:"column:Age;not null" json:"age"`
+	Age        string `gorm:"column:Age;not null" json:"age"`
+}
+type SearchQuestions struct {
+	FormsName  string `gorm:"column:Forms_name;not null" json:"forms_name"`
+	Categories string `gorm:"column:Categories;not null" json:"categories"`
+	Age        string `gorm:"column:Age;not null" json:"age"`
 }

@@ -23,7 +23,6 @@ func SetupRouter() *gin.Engine {
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	r.GET("/token", generateTokenHandler)
-	r.GET("/tokenTest", generateTokenHandlerTest)
 	r.POST("/add-questions", questions.AddQuestions)
 
 	auth := r.Group("/api")
@@ -47,6 +46,7 @@ func SetupRouter() *gin.Engine {
 	auth.GET("/profile", pacient.PullProfile)
 	auth.GET("/search-doctor", doctor.SearchDoctor)
 	auth.GET("/consults", consults.CheckConsults)
+	auth.GET("/pull-questions", questions.PullQuestions)
 
 	auth.DELETE("/consults", consults.RemoveConsults)
 
