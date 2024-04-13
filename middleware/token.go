@@ -55,8 +55,9 @@ func generateTokenHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao gerar token"})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"token": "Bearer " + token})
+	token = "Bearer " + token
+	c.Set("Response", token)
+	c.Status(http.StatusOK)
 }
 
 type resTest struct {

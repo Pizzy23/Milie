@@ -5,7 +5,7 @@ import (
 	inter "millieMind/internal/doctor/interface"
 	service "millieMind/internal/doctor/service"
 	pInter "millieMind/internal/pacient/interface"
-	"net/http"
+	errors "millieMind/middleware/interfaces/errors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,12 +18,13 @@ import (
 // @Param request body inter.ControllerDoctor true "Dados do Doutor a ser criado"
 // @Param Authorization header string true "Token de autenticação (Colocar o token deixando o Bearer)" default(Bearer <token>)
 // @Success 200 {object} inter.OutputDoctor "Doutor criado com sucesso"
+// @Failure 406 {object} errors.NotAcceptable "Error"
 // @Router /api/create-doctor [post]
 func CreateDoctor(c *gin.Context) {
 	var doctor inter.ControllerDoctor
 	if err := c.BindJSON(&doctor); err != nil {
 		c.Set("Response", "Paramets is invalid, need a json")
-		c.Status(http.StatusNotAcceptable)
+		c.Status(errors.StatusNotAcceptable)
 		return
 	}
 	service.AddDoctor(c, doctor)
@@ -57,7 +58,7 @@ func ModifyDoctor(c *gin.Context) {
 	var input inter.ControllerDoctor
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.Set("Response", "Paramets is invalid, need a json")
-		c.Status(http.StatusNotAcceptable)
+		c.Status(errors.StatusNotAcceptable)
 		return
 	}
 	service.ModifyDoctor(c, input)
@@ -76,8 +77,10 @@ func AddPacient(c *gin.Context) {
 	var input pInter.InputPacient
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.Set("Response", "Paramets is invalid, need a json")
-		c.Status(http.StatusNotAcceptable)
+		c.Status(errors.StatusNotAcceptable)
 		return
 	}
 }
-func ModifySkills(c *gin.Context) {}
+func ModifySkills(c *gin.Context) {
+
+}

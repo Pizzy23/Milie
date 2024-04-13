@@ -129,6 +129,12 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/inter.OutputDoctor"
                         }
+                    },
+                    "406": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotAcceptable"
+                        }
                     }
                 }
             }
@@ -177,80 +183,7 @@ const docTemplate = `{
         },
         "/api/pull-questions": {
             "get": {
-                "description": "Puxar as questoes no back",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Questions"
-                ],
-                "summary": "Puxar as questoes",
-                "parameters": [
-                    {
-                        "enum": [
-                            "Portage"
-                        ],
-                        "type": "string",
-                        "description": "Formularios : ",
-                        "name": "EnumFormsName",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "enum": [
-                            "Portage - Desenvolvimento Motor",
-                            "Portage - Auto cuidados",
-                            "Portage - Socializacao",
-                            "Portage - Linguagem",
-                            "Portage - Cognicao"
-                        ],
-                        "type": "string",
-                        "description": "Categorias : ",
-                        "name": "EnumCategories",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "enum": [
-                            "0 - 1",
-                            "1 - 2",
-                            "2 - 3",
-                            "3 - 4",
-                            "4 - 5",
-                            "5 - 6"
-                        ],
-                        "type": "string",
-                        "description": "Age Rate : ",
-                        "name": "EnumAges",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "default": "Bearer \u003ctoken\u003e",
-                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Doutor criado com sucesso",
-                        "schema": {
-                            "$ref": "#/definitions/inter.OutputDoctor"
-                        }
-                    },
-                    "406": {
-                        "description": "Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
+                "responses": {}
             }
         },
         "/api/search-doctor": {
@@ -351,6 +284,42 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "base.LogData": {
+            "type": "object",
+            "properties": {
+                "ExecutionTime": {
+                    "type": "string"
+                },
+                "HttpStatusCode": {
+                    "type": "integer"
+                },
+                "IP": {
+                    "type": "string"
+                },
+                "Route": {
+                    "type": "string"
+                }
+            }
+        },
+        "erros.Message": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "erros.NotAcceptable": {
+            "type": "object",
+            "properties": {
+                "LogData": {
+                    "$ref": "#/definitions/base.LogData"
+                },
+                "NotAcceptable": {
+                    "$ref": "#/definitions/erros.Message"
+                }
+            }
+        },
         "inter.ControllerDoctor": {
             "type": "object",
             "properties": {
@@ -568,17 +537,26 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
+        }
+    },
+    "externalDocs": {
+        "description": "OpenAPI",
+        "url": "https://swagger.io/resources/open-api/"
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
-	Host:             "",
+	Version:          "1.0",
+	Host:             "localhost:8080",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Milie Mind",
+	Description:      "This is a server for app.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

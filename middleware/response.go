@@ -36,9 +36,14 @@ func ResponseHandler() gin.HandlerFunc {
 		c.Next()
 
 		responseData := gin.H{}
-
+		typeResponse := ""
 		if response, ok := c.Get("Response"); ok {
 			responseData["Response"] = response
+			typeResponse = "NormalRes"
+		}
+		if response, ok := c.Get("Error"); ok {
+			responseData["Response"] = response
+			typeResponse = "Error"
 		}
 
 		startTime := time.Now()
@@ -56,11 +61,20 @@ func ResponseHandler() gin.HandlerFunc {
 			"HttpStatusCode": httpStatusCode,
 			"IP":             clientIP,
 		}
-
-		combinedData := gin.H{
-			"LogData":      logData,
-			"ResponseData": responseData,
+		combinedData := gin.H{}
+		if typeResponse == "Error" {
+			combinedData = gin.H{
+				"LogData": logData,
+				"Data":    responseData,
+			}
 		}
+		if typeResponse == "NormalRes" {
+			combinedData = gin.H{
+				"LogData": logData,
+				"Data":    responseData,
+			}
+		}
+
 		logString := fmt.Sprintf("ExecutionTime: %s, Route: %s, HttpStatusCode: %d, IP: %s\n",
 			logData["ExecutionTime"], logData["Route"], logData["HttpStatusCode"], logData["IP"])
 

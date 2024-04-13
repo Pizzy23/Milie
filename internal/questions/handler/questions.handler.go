@@ -37,7 +37,7 @@ func AddQuestions(c *gin.Context) {
 // @Param EnumAges header string true "Age Rate : " Enums(0 - 1, 1 - 2, 2 - 3, 3 - 4, 4 - 5, 5 - 6)
 // @Param Authorization header string true "Token de autenticação (Colocar o token deixando o Bearer)" default(Bearer <token>)
 // @Success 200 {object} inter.OutputDoctor "Doutor criado com sucesso"
-// @Failure 406 {object} string "Error"
+
 // @Router /api/pull-questions [get]
 func PullQuestions(c *gin.Context) {
 

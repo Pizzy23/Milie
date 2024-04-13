@@ -11,14 +11,16 @@ import (
 func authMiddleware(c *gin.Context) {
 	authorizationHeader := c.GetHeader("Authorization")
 	if authorizationHeader == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token de autenticação não fornecido"})
+		c.Set("Response", "Authentication token not provided")
+		c.Status(http.StatusUnauthorized)
 		c.Abort()
 		return
 	}
 
 	tokenParts := strings.Split(authorizationHeader, " ")
 	if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token de autenticação inválido"})
+		c.Set("Response", "Invalid authentication token")
+		c.Status(http.StatusUnauthorized)
 		c.Abort()
 		return
 	}
@@ -29,7 +31,8 @@ func authMiddleware(c *gin.Context) {
 		return getSecretKey(), nil
 	})
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Token de autenticação inválido"})
+		c.Set("Response", "Invalid authentication token")
+		c.Status(http.StatusUnauthorized)
 		c.Abort()
 		return
 	}

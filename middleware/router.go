@@ -12,23 +12,25 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-// @title Sua API de Comida
+// @title Milie Mind
 // @version 1.0
-// @description API para gerenciar informações de alimentos
+// @description API Milie Mind
 // @termsOfService http://swagger.io/terms/
 // @host localhost:8080
 // @BasePath /api
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	r.GET("/token", generateTokenHandler)
 	r.POST("/add-questions", questions.AddQuestions)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	r.Use(ResponseHandler())
+	//Use response, but not Token
+	r.GET("/token", generateTokenHandler)
 
 	auth := r.Group("/api")
 	auth.Use(authMiddleware)
-	auth.Use(ResponseHandler())
-
+	//Response and token service
 	auth.PUT("/modify-doctor", doctor.ModifyDoctor)
 	auth.PUT("/modify-skill", doctor.ModifySkills)
 	auth.PUT("/questions", pacient.QuestionsMark)

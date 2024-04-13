@@ -1,4 +1,27 @@
 definitions:
+  base.LogData:
+    properties:
+      ExecutionTime:
+        type: string
+      HttpStatusCode:
+        type: integer
+      IP:
+        type: string
+      Route:
+        type: string
+    type: object
+  erros.Message:
+    properties:
+      message:
+        type: string
+    type: object
+  erros.NotAcceptable:
+    properties:
+      LogData:
+        $ref: '#/definitions/base.LogData'
+      NotAcceptable:
+        $ref: '#/definitions/erros.Message'
+    type: object
   inter.ControllerDoctor:
     properties:
       city:
@@ -141,8 +164,15 @@ definitions:
       relationShip:
         type: string
     type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
 info:
   contact: {}
+  description: This is a server for app.
+  title: Milie Mind
+  version: "1.0"
 paths:
   /add-pacient:
     post:
@@ -219,6 +249,10 @@ paths:
           description: Doutor criado com sucesso
           schema:
             $ref: '#/definitions/inter.OutputDoctor'
+        "406":
+          description: Error
+          schema:
+            $ref: '#/definitions/erros.NotAcceptable'
       summary: Cria um novo Doutor
       tags:
       - Doctor
@@ -252,60 +286,7 @@ paths:
       - Doctor
   /api/pull-questions:
     get:
-      consumes:
-      - application/json
-      description: Puxar as questoes no back
-      parameters:
-      - description: 'Formularios : '
-        enum:
-        - Portage
-        in: header
-        name: EnumFormsName
-        required: true
-        type: string
-      - description: 'Categorias : '
-        enum:
-        - Portage - Desenvolvimento Motor
-        - Portage - Auto cuidados
-        - Portage - Socializacao
-        - Portage - Linguagem
-        - Portage - Cognicao
-        in: header
-        name: EnumCategories
-        required: true
-        type: string
-      - description: 'Age Rate : '
-        enum:
-        - 0 - 1
-        - 1 - 2
-        - 2 - 3
-        - 3 - 4
-        - 4 - 5
-        - 5 - 6
-        in: header
-        name: EnumAges
-        required: true
-        type: string
-      - default: Bearer <token>
-        description: Token de autenticação (Colocar o token deixando o Bearer)
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Doutor criado com sucesso
-          schema:
-            $ref: '#/definitions/inter.OutputDoctor'
-        "406":
-          description: Error
-          schema:
-            type: string
-      summary: Puxar as questoes
-      tags:
-      - Questions
+      responses: {}
   /api/search-doctor:
     get:
       consumes:
@@ -370,4 +351,7 @@ paths:
       summary: Criar token de auth
       tags:
       - Auth
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"
