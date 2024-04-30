@@ -88,7 +88,6 @@ type Parents struct {
 }
 
 type BaseQuestions struct {
-	ID         uint   `gorm:"column:id" json:"id"`
 	FormsName  string `gorm:"column:Forms_name;not null" json:"forms_name"`
 	Categories string `gorm:"column:Categories;not null" json:"categories"`
 	Age        string `gorm:"column:Age;not null" json:"age"`

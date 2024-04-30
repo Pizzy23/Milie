@@ -43,13 +43,27 @@ type Family struct {
 	Parents  []Parents  `json:"parents"`
 	Brothers []Brothers `json:"brothers"`
 }
-
 type Brothers struct {
 	Health         string `json:"health"`
 	NeuroDivergent string `json:"neuroDivergent"`
 }
-
 type Parents struct {
 	Relationship   string `json:"relationShip"`
 	NeuroDivergent string `json:"neuroDivergent"`
+}
+
+type ControllerPullPacient struct {
+	Email string `json:"email"`
+}
+
+type OutputPacient struct {
+	Pacient
+}
+
+type QuestionsMark struct {
+	FormsName  string `gorm:"column:Forms_name;not null" json:"forms_name"`
+	Categories string `gorm:"column:Categories;not null" json:"categories"`
+	Question   string `gorm:"column:question;not null" json:"question"`
+	Age        string `gorm:"column:Age;not null" json:"age"`
+	Answer     string `gorm:"column:Answer;not null" json:"answer"`
 }

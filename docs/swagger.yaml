@@ -22,6 +22,17 @@ definitions:
       NotAcceptable:
         $ref: '#/definitions/erros.Message'
     type: object
+  inter.BaseQuestions:
+    properties:
+      age:
+        type: string
+      categories:
+        type: string
+      forms_name:
+        type: string
+      question:
+        type: string
+    type: object
   inter.ControllerDoctor:
     properties:
       city:
@@ -286,7 +297,56 @@ paths:
       - Doctor
   /api/pull-questions:
     get:
-      responses: {}
+      consumes:
+      - application/json
+      description: Puxar as questoes no back
+      parameters:
+      - description: 'Formularios : '
+        enum:
+        - Portage
+        in: header
+        name: EnumFormsName
+        required: true
+        type: string
+      - description: 'Categorias : '
+        enum:
+        - Portage - Desenvolvimento Motor
+        - Portage - Auto cuidados
+        - Portage - Socializacao
+        - Portage - Linguagem
+        - Portage - Cognicao
+        in: header
+        name: EnumCategories
+        required: true
+        type: string
+      - description: 'Age Rate : '
+        enum:
+        - 0 - 1
+        - 1 - 2
+        - 2 - 3
+        - 3 - 4
+        - 4 - 5
+        - 5 - 6
+        in: header
+        name: EnumAges
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Doutor criado com sucesso
+          schema:
+            $ref: '#/definitions/inter.BaseQuestions'
+      summary: Puxar as questoes
+      tags:
+      - Questions
   /api/search-doctor:
     get:
       consumes:

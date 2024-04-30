@@ -36,8 +36,7 @@ func AddQuestions(c *gin.Context) {
 // @Param EnumCategories header string true "Categorias : " Enums(Portage - Desenvolvimento Motor, Portage - Auto cuidados, Portage - Socializacao, Portage - Linguagem, Portage - Cognicao)
 // @Param EnumAges header string true "Age Rate : " Enums(0 - 1, 1 - 2, 2 - 3, 3 - 4, 4 - 5, 5 - 6)
 // @Param Authorization header string true "Token de autenticação (Colocar o token deixando o Bearer)" default(Bearer <token>)
-// @Success 200 {object} inter.OutputDoctor "Doutor criado com sucesso"
-
+// @Success 200 {object} inter.BaseQuestions "Doutor criado com sucesso"
 // @Router /api/pull-questions [get]
 func PullQuestions(c *gin.Context) {
 

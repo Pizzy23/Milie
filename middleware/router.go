@@ -36,13 +36,11 @@ func SetupRouter() *gin.Engine {
 	auth.PUT("/questions", pacient.QuestionsMark)
 
 	auth.POST("/create-orientation", pacient.CreatOrientation)
-	auth.POST("/questions", pacient.QuestionsPulledAge)
 	auth.POST("/consults", consults.AddConsults)
 	auth.POST("/test-token", testeToken)
 	auth.POST("/create-doctor", doctor.CreateDoctor)
 	auth.POST("/add-pacient", doctor.AddPacient)
 
-	auth.GET("/activity", pacient.PullActivity)
 	auth.GET("/orientation", pacient.PullOrientation)
 	auth.GET("/pacient", pacient.PullPacient)
 	auth.GET("/profile", pacient.PullProfile)

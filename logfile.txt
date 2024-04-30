@@ -79,3 +79,7 @@ ExecutionTime: 0s, Route: , HttpStatusCode: 404, IP: ::1
 ExecutionTime: 0s, Route: , HttpStatusCode: 404, IP: ::1
 ExecutionTime: 0s, Route: /token, HttpStatusCode: 200, IP: ::1
 ExecutionTime: 0s, Route: /token, HttpStatusCode: 200, IP: ::1
+ExecutionTime: 0s, Route: /api/pull-questions, HttpStatusCode: 401, IP: ::1
+ExecutionTime: 0s, Route: /api/pull-questions, HttpStatusCode: 401, IP: ::1
+ExecutionTime: 0s, Route: /token, HttpStatusCode: 200, IP: ::1
+ExecutionTime: 0s, Route: /api/pull-questions, HttpStatusCode: 200, IP: ::1

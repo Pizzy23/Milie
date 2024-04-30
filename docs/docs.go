@@ -183,7 +183,74 @@ const docTemplate = `{
         },
         "/api/pull-questions": {
             "get": {
-                "responses": {}
+                "description": "Puxar as questoes no back",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Puxar as questoes",
+                "parameters": [
+                    {
+                        "enum": [
+                            "Portage"
+                        ],
+                        "type": "string",
+                        "description": "Formularios : ",
+                        "name": "EnumFormsName",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "Portage - Desenvolvimento Motor",
+                            "Portage - Auto cuidados",
+                            "Portage - Socializacao",
+                            "Portage - Linguagem",
+                            "Portage - Cognicao"
+                        ],
+                        "type": "string",
+                        "description": "Categorias : ",
+                        "name": "EnumCategories",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            "0 - 1",
+                            "1 - 2",
+                            "2 - 3",
+                            "3 - 4",
+                            "4 - 5",
+                            "5 - 6"
+                        ],
+                        "type": "string",
+                        "description": "Age Rate : ",
+                        "name": "EnumAges",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Doutor criado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/inter.BaseQuestions"
+                        }
+                    }
+                }
             }
         },
         "/api/search-doctor": {
@@ -317,6 +384,23 @@ const docTemplate = `{
                 },
                 "NotAcceptable": {
                     "$ref": "#/definitions/erros.Message"
+                }
+            }
+        },
+        "inter.BaseQuestions": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "string"
+                },
+                "categories": {
+                    "type": "string"
+                },
+                "forms_name": {
+                    "type": "string"
+                },
+                "question": {
+                    "type": "string"
                 }
             }
         },
