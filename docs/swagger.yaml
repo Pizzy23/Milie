@@ -1,4 +1,11 @@
 definitions:
+  base.BaseReq:
+    properties:
+      LogData:
+        $ref: '#/definitions/base.LogData'
+      ResponseData:
+        $ref: '#/definitions/base.ResponseData'
+    type: object
   base.LogData:
     properties:
       ExecutionTime:
@@ -9,6 +16,10 @@ definitions:
         type: string
       Route:
         type: string
+    type: object
+  base.ResponseData:
+    properties:
+      Response: {}
     type: object
   erros.Message:
     properties:
@@ -21,6 +32,14 @@ definitions:
         $ref: '#/definitions/base.LogData'
       NotAcceptable:
         $ref: '#/definitions/erros.Message'
+    type: object
+  erros.NotFound:
+    properties:
+      BaseReq:
+        $ref: '#/definitions/base.BaseReq'
+      NotFound:
+        $ref: '#/definitions/erros.Message'
+      Response: {}
     type: object
   inter.BaseQuestions:
     properties:
@@ -88,12 +107,36 @@ definitions:
         $ref: '#/definitions/inter.Question'
       type: array
     type: object
+  inter.Skills:
+    properties:
+      email:
+        type: string
+      note:
+        type: string
+      type:
+        type: string
+    type: object
   pInter.Brothers:
     properties:
       health:
         type: string
       neuroDivergent:
         type: string
+    type: object
+  pInter.CotrollerQuestionsMarker:
+    properties:
+      categories:
+        type: string
+      doctor_Email:
+        type: string
+      forms_name:
+        type: string
+      pacient_Email:
+        type: string
+      questions:
+        items:
+          $ref: '#/definitions/pInter.QuestionsMark'
+        type: array
     type: object
   pInter.Family:
     properties:
@@ -130,6 +173,72 @@ definitions:
         type: string
       score:
         type: integer
+    type: object
+  pInter.OrientationController:
+    properties:
+      description:
+        type: string
+      pacient_Email:
+        type: string
+      precautions:
+        items:
+          $ref: '#/definitions/pInter.OrientationPrecautions'
+        type: array
+    type: object
+  pInter.OrientationOutPut:
+    properties:
+      description:
+        type: string
+      pacientId:
+        type: string
+      precautions:
+        items:
+          $ref: '#/definitions/pInter.OrientationPrecautions'
+        type: array
+    type: object
+  pInter.OrientationPrecautions:
+    properties:
+      checkBox:
+        type: boolean
+      orietation:
+        type: string
+    type: object
+  pInter.OutputPacient:
+    properties:
+      Doctor_idDoctor:
+        type: integer
+      Family_idFamily:
+        type: integer
+      Login_idLogin:
+        type: integer
+      Skills_idSkills:
+        type: integer
+      age:
+        type: integer
+      create_at:
+        type: string
+      email:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      neuroDivergent:
+        type: string
+      pdfContent:
+        items:
+          type: integer
+        type: array
+      phone:
+        type: string
+      region:
+        type: string
+      score:
+        type: integer
+      update_at:
+        type: string
     type: object
   pInter.Pacient:
     properties:
@@ -175,6 +284,13 @@ definitions:
       relationShip:
         type: string
     type: object
+  pInter.QuestionsMark:
+    properties:
+      answer:
+        type: string
+      question:
+        type: string
+    type: object
 externalDocs:
   description: OpenAPI
   url: https://swagger.io/resources/open-api/
@@ -185,34 +301,6 @@ info:
   title: Milie Mind
   version: "1.0"
 paths:
-  /add-pacient:
-    post:
-      consumes:
-      - application/json
-      description: Cria um toke para auth do usuario
-      parameters:
-      - description: Dados do Doutor a ser criado
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/pInter.InputPacient'
-      - default: Bearer <token>
-        description: Token de autenticação (Colocar o token deixando o Bearer)
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 'token make:'
-          schema:
-            $ref: '#/definitions/pInter.Pacient'
-      summary: Criar token de auth
-      tags:
-      - Pacient
   /add-questions:
     post:
       consumes:
@@ -235,6 +323,66 @@ paths:
       summary: Adicionar as questoes
       tags:
       - Questions
+  /api/add-pacient:
+    post:
+      consumes:
+      - application/json
+      description: Criar um novo paciente
+      parameters:
+      - description: Dados do paciente a ser criado
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/pInter.InputPacient'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'token make:'
+          schema:
+            $ref: '#/definitions/pInter.Pacient'
+      summary: Criar Paciente
+      tags:
+      - Pacient
+  /api/creat-orientation:
+    post:
+      consumes:
+      - application/json
+      description: Adicionar orientações ao paciente
+      parameters:
+      - description: Todas as questoes.
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/pInter.OrientationController'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Questions input in db
+          schema:
+            $ref: '#/definitions/pInter.OrientationOutPut'
+        "404":
+          description: Questions not inputing
+          schema:
+            $ref: '#/definitions/erros.NotFound'
+      summary: Adicionar orientação
+      tags:
+      - Pacient
   /api/create-doctor:
     post:
       consumes:
@@ -267,6 +415,38 @@ paths:
       summary: Cria um novo Doutor
       tags:
       - Doctor
+  /api/modif-skill:
+    put:
+      consumes:
+      - application/json
+      description: Mudar o valor da habilidade do paciente
+      parameters:
+      - description: Dados da habilidade
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/inter.Skills'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Habilidade editada com sucesso
+          schema:
+            $ref: '#/definitions/inter.OutputDoctor'
+        "406":
+          description: Error
+          schema:
+            $ref: '#/definitions/erros.NotAcceptable'
+      summary: Editar Skills
+      tags:
+      - Pacient
   /api/modify-doctor:
     put:
       consumes:
@@ -295,6 +475,130 @@ paths:
       summary: Altera Doutor
       tags:
       - Doctor
+  /api/pacient-name:
+    get:
+      consumes:
+      - application/json
+      description: Pegar os dados do paciente atraves do nome completo
+      parameters:
+      - description: Nome Completo Do Paciente
+        in: header
+        name: Name
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paciente recuperado com sucesso
+          schema:
+            $ref: '#/definitions/pInter.OutputPacient'
+        "404":
+          description: Paciente não encontrado
+          schema:
+            $ref: '#/definitions/erros.NotFound'
+      summary: Pegar os dados do paciente
+      tags:
+      - Pacient
+  /api/pull-orientation:
+    get:
+      consumes:
+      - application/json
+      description: Adiciona questoes ao banco
+      parameters:
+      - description: E-mail do paciente
+        in: header
+        name: Email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Questions input in db
+          schema:
+            $ref: '#/definitions/pInter.OutputPacient'
+        "404":
+          description: Questions not inputing
+          schema:
+            $ref: '#/definitions/erros.NotFound'
+      summary: Adiciona questoes
+      tags:
+      - Pacient
+  /api/pull-patient:
+    get:
+      consumes:
+      - application/json
+      description: Busca um paciente pelo e-mail no banco de dados
+      parameters:
+      - description: E-mail do paciente
+        in: header
+        name: Email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paciente recuperado com sucesso
+          schema:
+            $ref: '#/definitions/pInter.OutputPacient'
+        "404":
+          description: Paciente não encontrado
+          schema:
+            $ref: '#/definitions/erros.NotFound'
+      summary: Recupera um paciente
+      tags:
+      - Pacient
+  /api/pull-profile:
+    get:
+      consumes:
+      - application/json
+      description: Puxa todas as informaçoes do usuario.
+      parameters:
+      - description: E-mail do paciente
+        in: header
+        name: Email
+        required: true
+        type: string
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paciente recuperado com sucesso
+          schema:
+            $ref: '#/definitions/pInter.OutputPacient'
+        "404":
+          description: Paciente não encontrado
+          schema:
+            $ref: '#/definitions/erros.NotFound'
+      summary: Puxar infos paciente
+      tags:
+      - Pacient
   /api/pull-questions:
     get:
       consumes:
@@ -347,6 +651,38 @@ paths:
       summary: Puxar as questoes
       tags:
       - Questions
+  /api/question-mark:
+    post:
+      consumes:
+      - application/json
+      description: Adiciona questoes ao banco
+      parameters:
+      - description: Todas as questoes.
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/pInter.CotrollerQuestionsMarker'
+      - default: Bearer <token>
+        description: Token de autenticação (Colocar o token deixando o Bearer)
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Questions input in db
+          schema:
+            $ref: '#/definitions/pInter.OutputPacient'
+        "404":
+          description: Questions not inputing
+          schema:
+            $ref: '#/definitions/erros.NotFound'
+      summary: Adiciona questoes
+      tags:
+      - Pacient
   /api/search-doctor:
     get:
       consumes:

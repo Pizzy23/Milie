@@ -13,9 +13,15 @@ type Login struct {
 }
 
 type Skills struct {
+	ID       uint      `gorm:"column:id;primaryKey" json:"id"`
+	Type     string    `gorm:"column:type;not null" json:"type"`
+	Note     string    `gorm:"column:note;not null" json:"note"`
+	CreateAt time.Time `gorm:"column:create_at;not null" json:"create_at"`
+	UpdateAt time.Time `gorm:"column:update_at;not null" json:"update_at"`
+}
+type SkillsTotal struct {
 	ID         uint      `gorm:"column:id;primaryKey" json:"id"`
-	Type       string    `gorm:"column:type;not null" json:"type"`
-	Note       string    `gorm:"column:note;not null" json:"note"`
+	SkillsID   uint      `gorm:"column:Skills_idSkills;not null" json:"Skills_idSkills"`
 	Average    string    `gorm:"column:avarage;not null" json:"avarage"`
 	AllAverage string    `gorm:"column:allAverage;not null" json:"allAverage"`
 	CreateAt   time.Time `gorm:"column:create_at;not null" json:"create_at"`
@@ -50,7 +56,8 @@ type Pacient struct {
 	NeuroDivergent string    `gorm:"column:neuroDivergen;not null" json:"neuroDivergent"`
 	Login          Login     `gorm:"foreignKey:LoginID" json:"login"`
 	LoginID        uint      `gorm:"column:Login_idLog in;not null" json:"login_id"`
-	Skills         []Skills  `gorm:"many2many:patient_skills;" json:"skills"`
+	Skills         Skills    `gorm:"many2many:patient_skills;" json:"skills"`
+	SkillsId       uint      `gorm:"many2many:Skills_idSkills;" json:"Skills_idSkills"`
 	Doctor         Doctor    `gorm:"foreignKey:DoctorID" json:"doctor"`
 	DoctorID       uint      `gorm:"column:Doctor_idDoctor;not null" json:"doctor_id"`
 	Family         []Family  `gorm:"foreignKey:PacientID" json:"family"`

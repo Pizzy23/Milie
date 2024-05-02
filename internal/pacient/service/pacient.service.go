@@ -8,8 +8,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PullPacient(c *gin.Context, input pInter.ControllerPullPacient) {
-	emailValid := util.IsValidEmail(input.Email)
+func CreatePacient(c *gin.Context, input pInter.InputPacient) {}
+
+func QuestionsMark(c *gin.Context) {}
+
+func CreatOrientation(c *gin.Context) {}
+
+func PullProfile(c *gin.Context, email string) {}
+
+func PullOrientation(c *gin.Context, email string) {}
+
+func PullByName(c *gin.Context, email string) {}
+
+func PullPacient(c *gin.Context, email string) {
+	emailValid := util.IsValidEmail(email)
 	if emailValid {
 
 	} else {
@@ -17,15 +29,3 @@ func PullPacient(c *gin.Context, input pInter.ControllerPullPacient) {
 		c.Status(http.StatusNotAcceptable)
 	}
 }
-
-func QuestionsMark(c *gin.Context) {}
-
-func PullActivity(c *gin.Context) {}
-
-func PullProfile(c *gin.Context) {}
-
-func PullOrientation(c *gin.Context) {}
-
-func CreatOrientation(c *gin.Context) {}
-
-func CreatActivity(c *gin.Context) {}

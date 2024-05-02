@@ -15,48 +15,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/add-pacient": {
-            "post": {
-                "description": "Cria um toke para auth do usuario",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Pacient"
-                ],
-                "summary": "Criar token de auth",
-                "parameters": [
-                    {
-                        "description": "Dados do Doutor a ser criado",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/pInter.InputPacient"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "default": "Bearer \u003ctoken\u003e",
-                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "token make:",
-                        "schema": {
-                            "$ref": "#/definitions/pInter.Pacient"
-                        }
-                    }
-                }
-            }
-        },
         "/add-questions": {
             "post": {
                 "description": "Um novo metodo de adicionar as questoes no back",
@@ -86,6 +44,96 @@ const docTemplate = `{
                         "description": "Doutor criado com sucesso",
                         "schema": {
                             "$ref": "#/definitions/inter.OutputDoctor"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/add-pacient": {
+            "post": {
+                "description": "Criar um novo paciente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Criar Paciente",
+                "parameters": [
+                    {
+                        "description": "Dados do paciente a ser criado",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pInter.InputPacient"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token make:",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.Pacient"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/creat-orientation": {
+            "post": {
+                "description": "Adicionar orientações ao paciente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Adicionar orientação",
+                "parameters": [
+                    {
+                        "description": "Todas as questoes.",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OrientationController"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions input in db",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OrientationOutPut"
+                        }
+                    },
+                    "404": {
+                        "description": "Questions not inputing",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotFound"
                         }
                     }
                 }
@@ -139,6 +187,54 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/modif-skill": {
+            "put": {
+                "description": "Mudar o valor da habilidade do paciente",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Editar Skills",
+                "parameters": [
+                    {
+                        "description": "Dados da habilidade",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inter.Skills"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Habilidade editada com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/inter.OutputDoctor"
+                        }
+                    },
+                    "406": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotAcceptable"
+                        }
+                    }
+                }
+            }
+        },
         "/api/modify-doctor": {
             "put": {
                 "description": "Altera o doutor, tem que me passar oque precisa alterar",
@@ -176,6 +272,190 @@ const docTemplate = `{
                         "description": "Doutor criado com sucesso",
                         "schema": {
                             "$ref": "#/definitions/inter.OutputDoctor"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pacient-name": {
+            "get": {
+                "description": "Pegar os dados do paciente atraves do nome completo",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Pegar os dados do paciente",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nome Completo Do Paciente",
+                        "name": "Name",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente recuperado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OutputPacient"
+                        }
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotFound"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pull-orientation": {
+            "get": {
+                "description": "Adiciona questoes ao banco",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Adiciona questoes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "E-mail do paciente",
+                        "name": "Email",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions input in db",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OutputPacient"
+                        }
+                    },
+                    "404": {
+                        "description": "Questions not inputing",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotFound"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pull-patient": {
+            "get": {
+                "description": "Busca um paciente pelo e-mail no banco de dados",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Recupera um paciente",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "E-mail do paciente",
+                        "name": "Email",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente recuperado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OutputPacient"
+                        }
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotFound"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pull-profile": {
+            "get": {
+                "description": "Puxa todas as informaçoes do usuario.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Puxar infos paciente",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "E-mail do paciente",
+                        "name": "Email",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paciente recuperado com sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OutputPacient"
+                        }
+                    },
+                    "404": {
+                        "description": "Paciente não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotFound"
                         }
                     }
                 }
@@ -248,6 +528,54 @@ const docTemplate = `{
                         "description": "Doutor criado com sucesso",
                         "schema": {
                             "$ref": "#/definitions/inter.BaseQuestions"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/question-mark": {
+            "post": {
+                "description": "Adiciona questoes ao banco",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pacient"
+                ],
+                "summary": "Adiciona questoes",
+                "parameters": [
+                    {
+                        "description": "Todas as questoes.",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pInter.CotrollerQuestionsMarker"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003ctoken\u003e",
+                        "description": "Token de autenticação (Colocar o token deixando o Bearer)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Questions input in db",
+                        "schema": {
+                            "$ref": "#/definitions/pInter.OutputPacient"
+                        }
+                    },
+                    "404": {
+                        "description": "Questions not inputing",
+                        "schema": {
+                            "$ref": "#/definitions/erros.NotFound"
                         }
                     }
                 }
@@ -351,6 +679,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "base.BaseReq": {
+            "type": "object",
+            "properties": {
+                "LogData": {
+                    "$ref": "#/definitions/base.LogData"
+                },
+                "ResponseData": {
+                    "$ref": "#/definitions/base.ResponseData"
+                }
+            }
+        },
         "base.LogData": {
             "type": "object",
             "properties": {
@@ -366,6 +705,12 @@ const docTemplate = `{
                 "Route": {
                     "type": "string"
                 }
+            }
+        },
+        "base.ResponseData": {
+            "type": "object",
+            "properties": {
+                "Response": {}
             }
         },
         "erros.Message": {
@@ -385,6 +730,18 @@ const docTemplate = `{
                 "NotAcceptable": {
                     "$ref": "#/definitions/erros.Message"
                 }
+            }
+        },
+        "erros.NotFound": {
+            "type": "object",
+            "properties": {
+                "BaseReq": {
+                    "$ref": "#/definitions/base.BaseReq"
+                },
+                "NotFound": {
+                    "$ref": "#/definitions/erros.Message"
+                },
+                "Response": {}
             }
         },
         "inter.BaseQuestions": {
@@ -488,6 +845,20 @@ const docTemplate = `{
                 }
             }
         },
+        "inter.Skills": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
         "pInter.Brothers": {
             "type": "object",
             "properties": {
@@ -496,6 +867,29 @@ const docTemplate = `{
                 },
                 "neuroDivergent": {
                     "type": "string"
+                }
+            }
+        },
+        "pInter.CotrollerQuestionsMarker": {
+            "type": "object",
+            "properties": {
+                "categories": {
+                    "type": "string"
+                },
+                "doctor_Email": {
+                    "type": "string"
+                },
+                "forms_name": {
+                    "type": "string"
+                },
+                "pacient_Email": {
+                    "type": "string"
+                },
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pInter.QuestionsMark"
+                    }
                 }
             }
         },
@@ -551,6 +945,107 @@ const docTemplate = `{
                 },
                 "score": {
                     "type": "integer"
+                }
+            }
+        },
+        "pInter.OrientationController": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "pacient_Email": {
+                    "type": "string"
+                },
+                "precautions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pInter.OrientationPrecautions"
+                    }
+                }
+            }
+        },
+        "pInter.OrientationOutPut": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "pacientId": {
+                    "type": "string"
+                },
+                "precautions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pInter.OrientationPrecautions"
+                    }
+                }
+            }
+        },
+        "pInter.OrientationPrecautions": {
+            "type": "object",
+            "properties": {
+                "checkBox": {
+                    "type": "boolean"
+                },
+                "orietation": {
+                    "type": "string"
+                }
+            }
+        },
+        "pInter.OutputPacient": {
+            "type": "object",
+            "properties": {
+                "Doctor_idDoctor": {
+                    "type": "integer"
+                },
+                "Family_idFamily": {
+                    "type": "integer"
+                },
+                "Login_idLogin": {
+                    "type": "integer"
+                },
+                "Skills_idSkills": {
+                    "type": "integer"
+                },
+                "age": {
+                    "type": "integer"
+                },
+                "create_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "neuroDivergent": {
+                    "type": "string"
+                },
+                "pdfContent": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "region": {
+                    "type": "string"
+                },
+                "score": {
+                    "type": "integer"
+                },
+                "update_at": {
+                    "type": "string"
                 }
             }
         },
@@ -617,6 +1112,17 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "relationShip": {
+                    "type": "string"
+                }
+            }
+        },
+        "pInter.QuestionsMark": {
+            "type": "object",
+            "properties": {
+                "answer": {
+                    "type": "string"
+                },
+                "question": {
                     "type": "string"
                 }
             }

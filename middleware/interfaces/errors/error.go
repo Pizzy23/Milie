@@ -21,6 +21,11 @@ type Conflict struct {
 	BaseReq  base.BaseReq `json:"BaseReq"`
 	Conflict Message      `json:"Conflict"`
 }
+type NotFound struct {
+	Response interface{}  `json:"Response"`
+	BaseReq  base.BaseReq `json:"BaseReq"`
+	NotFound Message      `json:"NotFound"`
+}
 
 type Message struct {
 	Message string `json:"message"`
@@ -31,6 +36,7 @@ const (
 	StatusInternalServerError = 500
 	StatusUnauthorized        = 401
 	StatusConflict            = 409
+	StatusNotFound            = 404
 )
 
 type Instance struct {

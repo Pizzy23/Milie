@@ -39,14 +39,17 @@ type InputPacient struct {
 	NeuroDivergent string `json:"neuroDivergent"`
 	Family         Family `json:"family"`
 }
+
 type Family struct {
 	Parents  []Parents  `json:"parents"`
 	Brothers []Brothers `json:"brothers"`
 }
+
 type Brothers struct {
 	Health         string `json:"health"`
 	NeuroDivergent string `json:"neuroDivergent"`
 }
+
 type Parents struct {
 	Relationship   string `json:"relationShip"`
 	NeuroDivergent string `json:"neuroDivergent"`
@@ -60,10 +63,36 @@ type OutputPacient struct {
 	Pacient
 }
 
+type CotrollerQuestionsMarker struct {
+	DoctorEmail  string          `json:"doctor_Email"`
+	PacientEmail string          `json:"pacient_Email"`
+	FormsName    string          `json:"forms_name"`
+	Categories   string          `json:"categories"`
+	Questions    []QuestionsMark `json:"questions"`
+}
+
 type QuestionsMark struct {
-	FormsName  string `gorm:"column:Forms_name;not null" json:"forms_name"`
-	Categories string `gorm:"column:Categories;not null" json:"categories"`
-	Question   string `gorm:"column:question;not null" json:"question"`
-	Age        string `gorm:"column:Age;not null" json:"age"`
-	Answer     string `gorm:"column:Answer;not null" json:"answer"`
+	Question string `json:"question"`
+	Answer   string `json:"answer"`
+}
+
+type OrientationController struct {
+	PacientEmail string                   `json:"pacient_Email"`
+	Description  string                   `json:"description"`
+	Precautions  []OrientationPrecautions `json:"precautions"`
+}
+
+type OrientationPrecautions struct {
+	Orietation string `json:"orietation"`
+	CheckBox   bool   `json:"checkBox"`
+}
+
+type OrientationOutPut struct {
+	PacientId   string                   `json:"pacientId"`
+	Description string                   `json:"description"`
+	Precautions []OrientationPrecautions `json:"precautions"`
+}
+
+type ControllerGetName struct {
+	Name string `json:"name"`
 }
