@@ -197,7 +197,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Pacient"
+                    "Skill"
                 ],
                 "summary": "Editar Skills",
                 "parameters": [
@@ -207,7 +207,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/inter.Skills"
+                            "$ref": "#/definitions/sInter.Skills"
                         }
                     },
                     {
@@ -325,7 +325,7 @@ const docTemplate = `{
         },
         "/api/pull-orientation": {
             "get": {
-                "description": "Adiciona questoes ao banco",
+                "description": "Puxa orientações do banco",
                 "consumes": [
                     "application/json"
                 ],
@@ -335,7 +335,7 @@ const docTemplate = `{
                 "tags": [
                     "Pacient"
                 ],
-                "summary": "Adiciona questoes",
+                "summary": "Puxar orientação",
                 "parameters": [
                     {
                         "type": "string",
@@ -845,20 +845,6 @@ const docTemplate = `{
                 }
             }
         },
-        "inter.Skills": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "note": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
         "pInter.Brothers": {
             "type": "object",
             "properties": {
@@ -916,6 +902,9 @@ const docTemplate = `{
                 "age": {
                     "type": "integer"
                 },
+                "doctor": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -951,9 +940,6 @@ const docTemplate = `{
         "pInter.OrientationController": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string"
-                },
                 "pacient_Email": {
                     "type": "string"
                 },
@@ -968,9 +954,6 @@ const docTemplate = `{
         "pInter.OrientationOutPut": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string"
-                },
                 "pacientId": {
                     "type": "string"
                 },
@@ -1120,9 +1103,26 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "answer": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "question": {
+                    "type": "string"
+                },
+                "question_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "sInter.Skills": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }

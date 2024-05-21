@@ -161,7 +161,7 @@ func encryptData(c *gin.Context, data inter.ControllerDoctor) inter.ControllerDo
 	encryptedPassword, err := util.Encrypt(data.Password)
 
 	if err != nil {
-		c.Set("Response", "Error encrypting email")
+		c.Set("Response", "Error encrypting Password")
 		c.Status(http.StatusInternalServerError)
 
 	}

@@ -58,8 +58,8 @@ func PullProfile(c *gin.Context) {
 	pService.PullProfile(c, email)
 }
 
-// @Summary Adiciona questoes
-// @Description Adiciona questoes ao banco
+// @Summary Puxar orientação
+// @Description Puxa orientações do banco
 // @Tags Pacient
 // @Accept json
 // @Produce json
@@ -105,4 +105,23 @@ func CreatOrientation(c *gin.Context) {
 func GetByName(c *gin.Context) {
 	email := c.GetHeader("Email")
 	pService.PullByName(c, email)
+}
+
+// @Summary Criar Paciente
+// @Description Criar um novo paciente
+// @Tags Pacient
+// @Accept json
+// @Produce json
+// @Param request body pInter.InputPacient true "Dados do paciente a ser criado"
+// @Param Authorization header string true "Token de autenticação (Colocar o token deixando o Bearer)" default(Bearer <token>)
+// @Success 200 {object} pInter.Pacient "token make:"
+// @Router /api/add-pacient [post]
+func AddPacient(c *gin.Context) {
+	var input pInter.InputPacient
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.Set("Response", "Paramets is invalid, need a json")
+		c.Status(errors.StatusNotAcceptable)
+		return
+	}
+	pService.CreatePacient(c, input)
 }

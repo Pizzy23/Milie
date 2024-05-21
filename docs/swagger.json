@@ -190,7 +190,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Pacient"
+                    "Skill"
                 ],
                 "summary": "Editar Skills",
                 "parameters": [
@@ -200,7 +200,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/inter.Skills"
+                            "$ref": "#/definitions/sInter.Skills"
                         }
                     },
                     {
@@ -318,7 +318,7 @@
         },
         "/api/pull-orientation": {
             "get": {
-                "description": "Adiciona questoes ao banco",
+                "description": "Puxa orientações do banco",
                 "consumes": [
                     "application/json"
                 ],
@@ -328,7 +328,7 @@
                 "tags": [
                     "Pacient"
                 ],
-                "summary": "Adiciona questoes",
+                "summary": "Puxar orientação",
                 "parameters": [
                     {
                         "type": "string",
@@ -838,20 +838,6 @@
                 }
             }
         },
-        "inter.Skills": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "note": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                }
-            }
-        },
         "pInter.Brothers": {
             "type": "object",
             "properties": {
@@ -909,6 +895,9 @@
                 "age": {
                     "type": "integer"
                 },
+                "doctor": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -944,9 +933,6 @@
         "pInter.OrientationController": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string"
-                },
                 "pacient_Email": {
                     "type": "string"
                 },
@@ -961,9 +947,6 @@
         "pInter.OrientationOutPut": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string"
-                },
                 "pacientId": {
                     "type": "string"
                 },
@@ -1113,9 +1096,26 @@
             "type": "object",
             "properties": {
                 "answer": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "question": {
+                    "type": "string"
+                },
+                "question_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "sInter.Skills": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "type": {
                     "type": "string"
                 }
             }

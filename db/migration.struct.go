@@ -54,13 +54,13 @@ type Pacient struct {
 	Score          uint      `gorm:"column:score;not null" json:"score"`
 	History        []byte    `gorm:"column:content;type:longblob;not null" json:"pdfContent"`
 	NeuroDivergent string    `gorm:"column:neuroDivergen;not null" json:"neuroDivergent"`
-	Login          Login     `gorm:"foreignKey:LoginID" json:"login"`
-	LoginID        uint      `gorm:"column:Login_idLog in;not null" json:"login_id"`
-	Skills         Skills    `gorm:"many2many:patient_skills;" json:"skills"`
+	Login          *Login    `gorm:"foreignKey:LoginID" json:"login"`
+	LoginID        uint      `gorm:"column:Login_idLogin;not null" json:"login_id"`
+	Skills         *Skills   `gorm:"many2many:patient_skills;" json:"skills"`
 	SkillsId       uint      `gorm:"many2many:Skills_idSkills;" json:"Skills_idSkills"`
-	Doctor         Doctor    `gorm:"foreignKey:DoctorID" json:"doctor"`
+	Doctor         *Doctor   `gorm:"foreignKey:DoctorID" json:"doctor"`
 	DoctorID       uint      `gorm:"column:Doctor_idDoctor;not null" json:"doctor_id"`
-	Family         []Family  `gorm:"foreignKey:PacientID" json:"family"`
+	Family         Family    `gorm:"foreignKey:PacientID" json:"family"`
 	CreateAt       time.Time `gorm:"column:create_at;not null" json:"create_at"`
 	UpdateAt       time.Time `gorm:"column:update_at;not null" json:"update_at"`
 }
@@ -107,11 +107,20 @@ type MakeQuestions struct {
 	PacientID  uint               `gorm:"column:Pacient_idPacient;not null" json:"Pacient_idPacient"`
 	FormsName  string             `gorm:"column:Forms_name;not null" json:"forms_name"`
 	Categories string             `gorm:"column:Categories;not null" json:"categories"`
-	Answers    []AnsweredQuestion `gorm:"-" json:"answers"`
+	Answers    []AnsweredQuestion `gorm:"foreignKey:MakeQuestionsID" json:"answers"`
 }
 
 type AnsweredQuestion struct {
-	QuestionID int    `json:"question_id"`
-	Question   string `gorm:"column:Questions;not null" json:"question"`
-	Answer     string `gorm:"column:Answer;not null" json:"answer"`
+	ID              uint   `gorm:"column:id;primaryKey" json:"id"`
+	MakeQuestionsID uint   `gorm:"column:MakeQuestions_idMakeQuestions;not null" json:"MakeQuestions_idMakeQuestions"`
+	QuestionID      int    `gorm:"column:Question_id;not null" json:"question_id"`
+	Question        string `gorm:"column:Questions;not null" json:"question"`
+	Answer          bool   `gorm:"column:Answer;not null" json:"answer"`
+}
+
+type Orientation struct {
+	Text      string   `gorm:"type:TEXT;not null" json:"text"`
+	Checkbox  bool     `gorm:"type:BOOLEAN;not null;default:false" json:"check"`
+	Pacient   *Pacient `gorm:"foreignKey:PacientID" json:"pacient"`
+	PacientID uint     `gorm:"column:Pacient_idPacient;not null" json:"Pacient_idPacient"`
 }

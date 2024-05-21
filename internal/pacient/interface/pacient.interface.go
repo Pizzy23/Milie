@@ -38,6 +38,7 @@ type InputPacient struct {
 	History        []byte `json:"pdfContent"`
 	NeuroDivergent string `json:"neuroDivergent"`
 	Family         Family `json:"family"`
+	Doctor         string `json:"doctor"`
 }
 
 type Family struct {
@@ -72,13 +73,13 @@ type CotrollerQuestionsMarker struct {
 }
 
 type QuestionsMark struct {
-	Question string `json:"question"`
-	Answer   string `json:"answer"`
+	QuestionID int    `json:"question_id"`
+	Question   string `json:"question"`
+	Answer     bool   `json:"answer"`
 }
 
 type OrientationController struct {
 	PacientEmail string                   `json:"pacient_Email"`
-	Description  string                   `json:"description"`
 	Precautions  []OrientationPrecautions `json:"precautions"`
 }
 
@@ -89,7 +90,6 @@ type OrientationPrecautions struct {
 
 type OrientationOutPut struct {
 	PacientId   string                   `json:"pacientId"`
-	Description string                   `json:"description"`
 	Precautions []OrientationPrecautions `json:"precautions"`
 }
 

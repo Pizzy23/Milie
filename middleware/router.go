@@ -39,7 +39,7 @@ func SetupRouter() *gin.Engine {
 	auth.POST("/consults", consults.AddConsults)
 	auth.POST("/test-token", testeToken)
 	auth.POST("/create-doctor", doctor.CreateDoctor)
-	auth.POST("/add-pacient", doctor.AddPacient)
+	auth.POST("/add-pacient", pacient.AddPacient)
 
 	auth.GET("/orientation", pacient.PullOrientation)
 	auth.GET("/pacient", pacient.PullPacient)

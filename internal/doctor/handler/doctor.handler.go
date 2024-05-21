@@ -4,8 +4,6 @@ import (
 	_ "millieMind/db"
 	inter "millieMind/internal/doctor/interface"
 	service "millieMind/internal/doctor/service"
-	pInter "millieMind/internal/pacient/interface"
-	pService "millieMind/internal/pacient/service"
 	sInter "millieMind/internal/skills/interface"
 	sService "millieMind/internal/skills/service"
 	errors "millieMind/middleware/interfaces/errors"
@@ -67,28 +65,9 @@ func ModifyDoctor(c *gin.Context) {
 	service.ModifyDoctor(c, input)
 }
 
-// @Summary Criar Paciente
-// @Description Criar um novo paciente
-// @Tags Pacient
-// @Accept json
-// @Produce json
-// @Param request body pInter.InputPacient true "Dados do paciente a ser criado"
-// @Param Authorization header string true "Token de autenticação (Colocar o token deixando o Bearer)" default(Bearer <token>)
-// @Success 200 {object} pInter.Pacient "token make:"
-// @Router /api/add-pacient [post]
-func AddPacient(c *gin.Context) {
-	var input pInter.InputPacient
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.Set("Response", "Paramets is invalid, need a json")
-		c.Status(errors.StatusNotAcceptable)
-		return
-	}
-	pService.CreatePacient(c, input)
-}
-
 // @Summary Editar Skills
 // @Description Mudar o valor da habilidade do paciente
-// @Tags Pacient
+// @Tags Skill
 // @Accept json
 // @Produce json
 // @Param request body sInter.Skills true "Dados da habilidade"

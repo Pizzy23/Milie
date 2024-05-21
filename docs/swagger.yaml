@@ -107,15 +107,6 @@ definitions:
         $ref: '#/definitions/inter.Question'
       type: array
     type: object
-  inter.Skills:
-    properties:
-      email:
-        type: string
-      note:
-        type: string
-      type:
-        type: string
-    type: object
   pInter.Brothers:
     properties:
       health:
@@ -153,6 +144,8 @@ definitions:
     properties:
       age:
         type: integer
+      doctor:
+        type: string
       email:
         type: string
       family:
@@ -176,8 +169,6 @@ definitions:
     type: object
   pInter.OrientationController:
     properties:
-      description:
-        type: string
       pacient_Email:
         type: string
       precautions:
@@ -187,8 +178,6 @@ definitions:
     type: object
   pInter.OrientationOutPut:
     properties:
-      description:
-        type: string
       pacientId:
         type: string
       precautions:
@@ -287,8 +276,19 @@ definitions:
   pInter.QuestionsMark:
     properties:
       answer:
-        type: string
+        type: boolean
       question:
+        type: string
+      question_id:
+        type: integer
+    type: object
+  sInter.Skills:
+    properties:
+      email:
+        type: string
+      note:
+        type: string
+      type:
         type: string
     type: object
 externalDocs:
@@ -426,7 +426,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/inter.Skills'
+          $ref: '#/definitions/sInter.Skills'
       - default: Bearer <token>
         description: Token de autenticação (Colocar o token deixando o Bearer)
         in: header
@@ -446,7 +446,7 @@ paths:
             $ref: '#/definitions/erros.NotAcceptable'
       summary: Editar Skills
       tags:
-      - Pacient
+      - Skill
   /api/modify-doctor:
     put:
       consumes:
@@ -510,7 +510,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Adiciona questoes ao banco
+      description: Puxa orientações do banco
       parameters:
       - description: E-mail do paciente
         in: header
@@ -534,7 +534,7 @@ paths:
           description: Questions not inputing
           schema:
             $ref: '#/definitions/erros.NotFound'
-      summary: Adiciona questoes
+      summary: Puxar orientação
       tags:
       - Pacient
   /api/pull-patient:
