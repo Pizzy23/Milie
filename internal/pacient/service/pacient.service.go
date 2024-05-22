@@ -13,7 +13,7 @@ import (
 )
 
 func CreatePacient(c *gin.Context, input pInter.InputPacient) {
-	family := db.Family{
+	family := &db.Family{
 		Parents:  make([]db.Parents, len(input.Family.Parents)),
 		Brothers: make([]db.Brothers, len(input.Family.Brothers)),
 		CreateAt: time.Now(),
@@ -145,7 +145,6 @@ func CreateOrientation(c *gin.Context, input pInter.OrientationController) {
 		orientations[i] = db.Orientation{
 			Text:      q.Orietation,
 			Checkbox:  q.CheckBox,
-			Pacient:   pacient,
 			PacientID: pacient.ID,
 		}
 	}
